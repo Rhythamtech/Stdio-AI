@@ -138,7 +138,7 @@ else:
   st.write(st.session_state.current_page)
   home_page()
 
-st.toast(st.session_state.current_page)
+
 
     
     
