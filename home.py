@@ -127,15 +127,14 @@ body {
         st.rerun()
 
 if st.session_state.current_page == "login_page":
-    st.navigation([login_page]).run()
+  st.navigation([login_page]).run()
 elif st.session_state.current_page == 'signup_page':
-    pg = st.navigation([signin_page]).run()
+  st.navigation([signin_page]).run()
 elif st.session_state.current_page == 'dashboard_page':
-    pg = st.navigation([dasboard_page]).run()
+  st.navigation([dasboard_page]).run()
 elif st.session_state.current_page == 'video_processing_page':
-    pg = st.navigation([video_processing_page]).run()
+  st.navigation([video_processing_page]).run()
 else:
-  st.write(st.session_state.current_page)
   home_page()
 
 
