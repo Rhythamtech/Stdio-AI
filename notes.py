@@ -64,7 +64,7 @@ def download_form_container():
     #                             type='primary',
     #                             mime = "application/octet-stream", )
     
-    cols[1].button("☁️Save",type="primary")
+    cols[2].button("☁️Save",type="primary",use_container_width=True)
 
 
 with stylable_container(
