@@ -41,27 +41,30 @@ def download_base64_file(b64, download_filename):
     </html>                           """)  
       
 @st.experimental_fragment
-def download_form_container(notes,mindmap):
+def download_form_container():
     
     cols = st.columns([8,2,1.07],vertical_alignment='bottom')
-    selection =  cols[1].selectbox("Download: ",["Notes as .pdf","Mindmap as .pdf"],index=None,)
-
-    with cols[2]:
-        if selection == "Notes as .pdf":
-            base64_notes = create_notes_pdf(content=notes)
-            st.download_button("Download",
-                                   data = base64_notes,
-                                   type='primary',
-                                 file_name=f"video_notes_{st.session_state.video_id}.pdf",
-                                 mime = "application/octet-stream", )
-
-        elif selection == "Mindmap as .pdf":
-            base64_mindmap = create_mindmap_pdf(content=mindmap)
-            stylable_container.download_button("Download",
-                                   data = base64_mindmap,
-                                 file_name=f"video_mindmap_{st.session_state.video_id}.pdf",
-                                 type='primary',
-                                 mime = "application/octet-stream", )
+    
+    #selection =  cols[1].selectbox("Download: ",["Notes as .pdf","Mindmap as .pdf"],index=None,)
+    
+    #with cols[2]:
+    #    if selection == "Notes as .pdf":
+    #        base64_notes = create_notes_pdf(content=notes)
+    #        st.download_button("Download",
+    #                               data = base64_notes,
+    #                               type='primary',
+    #                             file_name=f"video_notes_{st.session_state.video_id}.pdf",
+    #                             mime = "application/octet-stream", )
+#
+    #    elif selection == "Mindmap as .pdf":
+    #        base64_mindmap = create_mindmap_pdf(content=mindmap)
+    #        stylable_container.download_button("Download",
+    #                               data = base64_mindmap,
+    #                             file_name=f"video_mindmap_{st.session_state.video_id}.pdf",
+    #                             type='primary',
+    #                             mime = "application/octet-stream", )
+    
+    cols[1].button("☁️Save",type="primary")
 
 
 with stylable_container(
@@ -98,5 +101,5 @@ if st.button("Click for AI Magic ✨"):
 
     if st.session_state.workflow_completed:
         with bottom():
-            download_form_container(notes=st.session_state.notes,mindmap=mindmap_data)
+            download_form_container()
     
