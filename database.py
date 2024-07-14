@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 db_name = "stdioai_db"
+connection_str = "sqlitecloud://cj0892jlsk.sqlite.cloud:8860?apikey="+os.environ.get("SQLITE_API_KEY")
 
 def save_data(video_id,mindmap_data,notes):
-    conn = sqlitecloud.connect("sqlitecloud://cj0892jlsk.sqlite.cloud:8860?apikey="+os.environ.get("SQLITE_API_KEY"))
+    conn = sqlitecloud.connect(connection_str)
     conn.execute(f"USE DATABASE {db_name}") 
     
     sql = '''
@@ -22,7 +23,7 @@ def save_data(video_id,mindmap_data,notes):
     return "data inserted"
 
 def fetch_notes(video_id):
-    conn = sqlitecloud.connect(os.environ.get("CONNECTION_STRING"))
+    conn = sqlitecloud.connect(connection_str)
     conn.execute(f"USE DATABASE {db_name}") 
     
     sql = f'''
@@ -43,7 +44,7 @@ def fetch_notes(video_id):
 
 
 def fetch_all_notes():
-    conn = sqlitecloud.connect(os.environ.get("CONNECTION_STRING"))
+    conn = sqlitecloud.connect(connection_str)
     conn.execute(f"USE DATABASE {db_name}") 
     
     sql = '''
