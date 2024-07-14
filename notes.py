@@ -60,7 +60,7 @@ def bottom_layout(video_id,mindmap,notes):
                 
     
     except Exception as e:
-        st.error("Oops!! We are under Maintenance Mode 👷‍♂️. **STAY CONNECTED**")
+        st.error(f"Oops!! We are under Maintenance Mode 👷‍♂️. **STAY CONNECTED**\n\n {e}")
         
 
 # page UI starts from here...    
@@ -117,5 +117,5 @@ if st.button("Click for AI Magic ✨"):
                 bottom_layout(st.session_state.video_id,mindmap_data,st.session_state.notes)
         
     except Exception as e:
-        st.error("Oops!! We are under Maintenance Mode 👷‍♂️. **STAY CONNECTED**")
+        st.error(f"Oops!! We are under Maintenance Mode 👷‍♂️. **STAY CONNECTED**\n\n {e}")
         
