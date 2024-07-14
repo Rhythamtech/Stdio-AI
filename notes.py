@@ -1,11 +1,9 @@
-import uuid
 from utils import *
 import streamlit as st
 from workflow import *
-from pytube import YouTube
-import streamlit.components.v1 as components
+from database import *
 from streamlit_extras.stylable_container import stylable_container
-from streamlit_extras.bottom_container import bottom 
+from streamlit_extras.bottom_container import bottom
 
 st.markdown(
     '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',
@@ -24,51 +22,51 @@ def hide_magic_button():
 def go_back():
     current_page('dashboard_page')
     st.rerun()
-               
-def download_base64_file(b64, download_filename):
-    id_link = '_'+str(uuid.uuid4())
-    components.html(
-        f"""          
-        
-     <html>
-    <head>
-    <title>Start Auto Download file</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script>
-    $('<a href="data:application/octet-stream;base64,{b64}" download="{download_filename}">')[0].click()
-    </script>
-    </head>
-    </html>                           """)  
-      
-@st.experimental_fragment
-def download_form_container():
     
-    cols = st.columns([8,2,1.07],vertical_alignment='bottom')
+def saving_to_cloud(video_id,mindmap,notes):
+    st.toast("Saving...",icon="👽")
+    save_data(video_id,mindmap,notes)
+    current_page('dashboard_page')
     
-    #selection =  cols[1].selectbox("Download: ",["Notes as .pdf","Mindmap as .pdf"],index=None,)
-    
-    #with cols[2]:
-    #    if selection == "Notes as .pdf":
-    #        base64_notes = create_notes_pdf(content=notes)
-    #        st.download_button("Download",
-    #                               data = base64_notes,
-    #                               type='primary',
-    #                             file_name=f"video_notes_{st.session_state.video_id}.pdf",
-    #                             mime = "application/octet-stream", )
-#
-    #    elif selection == "Mindmap as .pdf":
-    #        base64_mindmap = create_mindmap_pdf(content=mindmap)
-    #        stylable_container.download_button("Download",
-    #                               data = base64_mindmap,
-    #                             file_name=f"video_mindmap_{st.session_state.video_id}.pdf",
-    #                             type='primary',
-    #                             mime = "application/octet-stream", )
-    
-    cols[2].button("☁️Save",type="primary",use_container_width=True)
 
+def bottom_layout(video_id,mindmap,notes):
+    try :
+        st.markdown("""
+                    <style>
+                    div [data-testid="stBottomBlockContainer"]{
+                      padding-top: 3px;  
+                    }
+                    </style>    
+                    """,unsafe_allow_html=True)
+
+        cols = st.columns([8,4.5,4.5,8],gap="small",vertical_alignment="center")
+
+        with cols[1]:
+            with stylable_container(
+                        key="gradient-button",
+                        css_styles=r"""
+                            button{
+                                padding: 1rem;
+                                position: relative;
+                                background: linear-gradient(to right, red, purple);
+                                padding: 3px;
+                            }
+                            """,
+                    ):
+                st.button("✨ **Re-generate** ",use_container_width=True,type="primary")
+
+        with cols[2]:
+            st.button("**Save to Cloud** 📁",use_container_width=True,type="primary",on_click=saving_to_cloud,args=(video_id,mindmap,notes))
+                
+    
+    except Exception as e:
+        st.error("Oops!! We are under Maintenance Mode 👷‍♂️. **STAY CONNECTED**")
+        
+
+# page UI starts from here...    
 
 with stylable_container(
-        key="container_with_border",
+        key="icon-button",
         css_styles=r"""
             button div:before {
                 font-family: 'Font Awesome 5 Free';
@@ -85,21 +83,39 @@ with stylable_container(
            
 if "video_id" not in st.session_state :
     go_back()
-    
+
 st.title(YouTube("https://www.youtube.com/watch?v=" + str(st.session_state.video_id)).title)
 mindmap_data = ''
 
-if st.button("Click for AI Magic ✨"):  
-    hide_magic_button()  
-    if notes_workflow() is not None:
-        with st.spinner("Generating MindMap..."):
-            st.title("🧠 Mindmap")
-            mindmap_data = mindmap_workflow()
-    else:
-        st.write("```Unable to fetch transcript for " + str(st.session_state.video_id)+"```")
-        pass
-
-    if st.session_state.workflow_completed:
-        with bottom():
-            download_form_container()
+if st.button("Click for AI Magic ✨"):
     
+    if "workflow_completed" not in st.session_state:
+        st.session_state["workflow_completed"] =  False
+    else:
+        st.session_state["workflow_completed"] =  False
+        
+    try:
+        hide_magic_button()  
+        data  = fetch_notes(video_id = st.session_state.video_id)
+        
+        if data == None:
+            if notes_workflow() is not None:
+                with st.spinner("Generating MindMap..."):
+                    st.title("🧠 Mindmap")
+                    mindmap_data = mindmap_workflow()
+            else:
+                st.write("```Unable to fetch transcript for " + str(st.session_state.video_id)+"```")
+        else:
+            st.write(data[0][0])
+            st.title("🧠 Mindmap")
+            markmap(data[0][1])
+            st.session_state["workflow_completed"] = True
+        
+        
+        if st.session_state["workflow_completed"] and data == None:
+            with bottom():
+                bottom_layout(st.session_state.video_id,mindmap_data,st.session_state.notes)
+        
+    except Exception as e:
+        st.error("Oops!! We are under Maintenance Mode 👷‍♂️. **STAY CONNECTED**")
+        

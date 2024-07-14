@@ -9,7 +9,7 @@ co = cohere.Client(os.environ.get("COHERE_FREE_API"))
 
 def stream_chat(instruction, data):
     cohere_response = co.chat_stream(message=f"{instruction} \n {data}",
-                                     temperature=0.7,
+                                     temperature=0.2,
                                     chat_history = None,
                                      model="command-r-plus")
 

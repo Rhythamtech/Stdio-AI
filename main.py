@@ -16,6 +16,7 @@ def get_youtube_video_id(url):
 def get_youtube_video_thumbnail(video_id):
     return f"https://img.youtube.com/vi/{video_id}/mqdefault.jpg"
 
+
 def get_video_transcript(vid_id):
     try:
         transcript = YouTubeTranscriptApi.list_transcripts(vid_id)

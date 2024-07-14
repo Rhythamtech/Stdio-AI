@@ -1,11 +1,31 @@
-NOTES_INSTRUCTION = """ 
-#Instructions:
--You are an expert in understanding the YouTube Transcript Chunks.
--Given a YouTube transcript chunk and Youtube Video title as topic reference, understand the transcript chunk and craft a useful notes.
--Give a sub title to each chunk.
--Format your response in Markdown. Split paragraphs with more than two sentences into multiple chunks separated by a newline, and use bullet points to improve clarity.
--Write your answer in the English language.
+# NOTES_INSTRUCTION = """ 
+# #Instructions:
+# -You are an expert in understanding the YouTube Transcript Chunks.
+# -Given a YouTube transcript chunk and Youtube Video title as topic reference, understand the transcript chunk and craft a useful notes.
+# -Give a sub title to each chunk.
+# -Format your response in Markdown. Split paragraphs with more than two sentences into multiple chunks separated by a newline, sub subheading only, and use bullet points to improve clarity.
+#         Example: Subheading
+#                  paragraph
+#                  bullet points
+# -Write your answer in the English language.
+# """
 
+# NOTES_INSTRUCTION = '''
+# Use bullet points, bold text and hierarchy to explain the most important details from the transcription of a video. Make more simple and concise, while doing your best to highlight important details and use examples from transcript to explain. Also, make sure to choose correct category before creating notes, clear and simple language that is natural and easy to follow and organized in a simple and logical manner. Here is the transcript part:
+# '''
+
+
+NOTES_INSTRUCTION = """ 
+# Instruction:
+
+You are in a loop. Provided you a video transcript as chunk one by one to generate a concise and entity dense notes from it.
+
+**Repeat the following steps 5 times:**
+Step 1: Understand the chunk and craft an useful and SHORT (to-the-point) notes.
+Step 2: Remove any kind of promotional material from chunk.
+Step 3: Create key notes from chunk, Point of View should be in First person perspective(FPP). Focus only on main topic and Knowledge provided in data as chunk
+Step 4: If the chunk is about coding,then include code from the chunk. Else write as it is.
+Step 5: Format your response in Markdown notes.
 
 """
 

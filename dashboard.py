@@ -1,6 +1,7 @@
 import time
 from main import * 
 from utils import *
+from pytube import YouTube
 import streamlit as st
 from streamlit_extras.row import row 
 from streamlit_extras.stylable_container import stylable_container
@@ -246,7 +247,7 @@ article .shimmer{
 #             with grid[i].container(border=True):
 #                 st.image("https://img.youtube.com/vi/CUUP-fUmA3A/mqdefault.jpg", use_column_width=True)
 #                 title_col = st.columns([8,2])
-#                 title_col[0].markdown("##### Streamlit Component, for a UI card")
+#                 title_col[0].markdown(f"##### {YouTube("https://www.youtube.com/watch?v=" + str(st.session_state.video_id)).title}")
 #                 with title_col[1]:
 #                     st.button("✏️",key=f"jsms{i}")    
 #                 st.markdown(":grey[Write YouTube Video Notes :blue[With AI]]")
