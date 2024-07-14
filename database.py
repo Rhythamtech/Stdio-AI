@@ -7,7 +7,7 @@ load_dotenv()
 db_name = "stdioai_db"
 
 def save_data(video_id,mindmap_data,notes):
-    conn = sqlitecloud.connect(os.environ.get("CONNECTION_STRING"))
+    conn = sqlitecloud.connect("sqlitecloud://cj0892jlsk.sqlite.cloud:8860?apikey="+os.environ.get("SQLITE_API_KEY"))
     conn.execute(f"USE DATABASE {db_name}") 
     
     sql = '''
