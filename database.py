@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 db_name = "stdioai_db"
-connection_str = "sqlitecloud:////cj0892jlsk.sqlite.cloud:8860?apikey="+os.environ.get(key = "SQLITE_API_KEY")
+connection_str = "sqlitecloud://cj0892jlsk.sqlite.cloud:8860?apikey="+os.environ.get("SQLITE_API_KEY")
 
 def save_data(video_id,mindmap_data,notes):
     conn = sqlitecloud.connect(connection_str)
