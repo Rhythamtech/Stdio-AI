@@ -3,7 +3,7 @@ NOTES_INSTRUCTION = """
 -You are an expert in understanding the YouTube Transcript Chunks.
 -Given a YouTube transcript chunk and Youtube Video title as topic reference, understand the transcript chunk and craft a useful notes.
 -Give a sub title to each chunk.
--Format your response in Markdown. Split paragraphs with more than two sentences into multiple chunks separated by a newline, sub subheading only, and use bullet points to improve clarity.
+-Format your response in Markdown. Split paragraphs with more than two sentences into multiple paragraphs separated by a newline, sub subheading only, and use bullet points to improve clarity.
         Example: **{subheading}**
                 {short paragraph about it}
                  >{bullet points}
