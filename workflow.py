@@ -21,38 +21,80 @@ def markmap(data):
     data = str(data)
     
     download_button_html = """
-     <style>
-      #downloadButton {
-        position: absolute;
-        right: 20px;
-        bottom: 20px;
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+  <style>
+        #downloadButton {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #saveSvgButton {
+            position: absolute;
+            right: 200px;
+            bottom: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
-    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <button id="downloadButton">Download Mindmap</button>
-    <script>
-      document.getElementById('downloadButton').addEventListener('click', function () {
-        var element = document.querySelector('.markmap svg');
-        var opt = {
-          margin:       0,
-          filename:     'markmap.pdf',
-          html2canvas:  { scale: 4},  // Increase scale for higher resolution
-          jsPDF:        {
-                            unit: 'in', format: 'A4',
-                            orientation: 'landscape'
-                        }
-        };
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" integrity="sha512-MpDFIChbcXl2QgipQrt1VcPHMldRILetapBl5MPCA9Y8r7qvlwx1/Mc9hNTzY+kS5kX6PdoDq41ws1HiVNLdZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<button id="saveSvgButton">Save as SVG</button>
+<button id="downloadButton">Download Mindmap</button>
 
-        // Generate the PDF
-        html2pdf().set(opt).from(element).save()
-      });
+<script>
+   document.getElementById('downloadButton').addEventListener('click', function () {
+    var element = document.querySelector('.markmap svg');
+    var opt = {
+      margin:       0,
+      filename:     'markmap.pdf',
+      html2canvas:  { scale: 10, useCORS: true },  // Increase scale for higher resolution and allow cross-origin images
+      jsPDF:        {
+                        unit: 'in',
+                        format: 'A4',
+                        orientation: 'landscape',
+                        compress: true,
+                        dpi: 300  // Set DPI for better quality
+                    }
+    };
 
+    // Apply CSS to enhance text clarity
+    element.style.fontSmooth = 'always';
+    element.style.webkitFontSmoothing = 'antialiased';
+    element.style.mozOsxFontSmoothing = 'grayscale';
+
+    // Generate the PDF
+    html2pdf().set(opt).from(element).save();
+  });
+
+
+        document.getElementById('saveSvgButton').addEventListener('click', function () {
+            var svgElement = document.querySelector('.markmap svg');
+
+            if (!svgElement) {
+                console.error('SVG element not found');
+                return;
+            }
+
+            var svgData = new XMLSerializer().serializeToString(svgElement);
+            var svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            var svgUrl = URL.createObjectURL(svgBlob);
+            var downloadLink = document.createElement('a');
+            downloadLink.href = svgUrl;
+            downloadLink.download = 'markmap.svg';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
     </script>
 """
 
