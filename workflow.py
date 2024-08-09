@@ -130,7 +130,7 @@ markmap:
 '''
 
 
-    print(f"Markdown: \n{mindmap_html}")
+    #print(f"Markdown: \n{mindmap_html}")
     st.caption("Before download, Zoom out the mindmap and fit inside the frame.")
     components.html(mindmap_html)
  

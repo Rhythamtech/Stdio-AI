@@ -70,7 +70,7 @@ def popup_dialog():
                     st.session_state.video_id = video_id
                     st.rerun()
                     
-top_title =st.columns([1.25,5,10],vertical_alignment="center")       
+top_title =st.columns([2.5,6,10],vertical_alignment="center")       
 if top_title[0].button("👋Logout"):
     remove_authentication_data()
     st.rerun()
