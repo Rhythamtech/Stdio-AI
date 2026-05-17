@@ -1,100 +1,93 @@
 
 # Stdio-AI
 
-Stdio-AI is a lightweight, efficient interface designed to connect large language models (LLMs) and AI agents directly to local environments using standard input/output (`stdio`) streams. Operating via JSON-RPC or newline-delimited stream communication, it enables seamless execution of local system tools, file operations, and context injection for AI workflows without the overhead of heavy HTTP or WebSocket servers.
+Stdio-AI is an intuitive, web-based AI workstation built on **Streamlit**. It acts as a bridge between powerful Large Language Models (LLMs) and local environments, offering a rich UI to monitor, test, and interact with AI workflows, autonomous data pipelines, or Model Context Protocol (MCP) toolkits.
 
-Optimized for integration with Model Context Protocol (MCP) clients like Claude Desktop, Cursor, and custom agent architectures.
+By utilizing Streamlit, **Stdio-AI** transforms raw standard input/output streams into dynamic, user-friendly dashboards, execution logs, and conversational playgrounds.
 
 ## 🚀 Features
 
-- **Stdio Transport Layer:** Direct, low-latency communication over `stdin` and `stdout` using asynchronous streams.
-- **Robust Error Handling:** Intercepts system exceptions and routes internal logs safely to `stderr` to keep the standard output line clean for data exchange.
-- **Agent Interactivity:** Enables external LLMs to execute structural tools, search local directories, and run system tasks.
-- **Secure & Lightweight:** Zero-dependency or light footprint execution designed to be run locally or via container environments.
+- **Interactive UI/UX:** Built entirely with Streamlit for clean, responsive, and real-time visualization of AI operations.
+- **Session State Tracking:** Seamlessly manage prompt history, chat contexts, and intermediate agent reasoning states.
+- **Live Stream Monitoring:** Inspect payload data, token usage, or back-and-forth tool parameters directly in the web UI.
+- **Plug-and-Play Configuration:** Easily adjust system prompts, model endpoints, and API parameters via a reactive sidebar dashboard.
 
 ## 📦 Prerequisites
 
-Ensure you have the required runtime environment set up based on your project configuration:
+Before running the application, make sure you have the following installed:
 
 - **Python:** `python 3.10+`
-- **Node.js:** `node 18+` (if utilizing npm/npx wrappers)
+- **Package Manager:** `pip`
 
 ## 🔧 Installation & Setup
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/Rhythamtech/Stdio-AI.git](https://github.com/Rhythamtech/Stdio-AI.git)
+   git clone https://github.com/Rhythamtech/Stdio-AI.git
    cd Stdio-AI
 
 ```
 
-2. **Environment Configuration:**
-Depending on your underlying architecture, install dependencies:
-*For Python backends:*
+2. **Set Up a Virtual Environment:**
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+
+```
+
+
+3. **Install Dependencies:**
+Make sure you install `streamlit` alongside any model connectors or helper libraries:
+```bash
 pip install -r requirements.txt
 
 ```
 
 
-*For Node.js backends:*
+4. **Environment Variables:**
+If your application uses specific API keys (such as OpenAI, Anthropic, or local LLM endpoints), create a `.env` file or configure a local Streamlit secret file (`.streamlit/secrets.toml`):
+```env
+OPENAI_API_KEY=your_key_here
+ANTHROPIC_API_KEY=your_key_here
+
+```
+
+
+
+## 🛠 Usage & Execution
+
+To launch the web interface locally, execute the standard Streamlit run command:
+
 ```bash
-npm install
+streamlit run app.py
 
 ```
 
+*(Replace `app.py` with your repository's primary entrypoint file if named differently, e.g., `main.py`).*
 
+Once executed, your browser will automatically open the interface at:
+👉 **`http://localhost:8501`**
 
-## 🛠 Usage & Integration
+## 📂 Project Structure
 
-### Running the Server Locally
-
-To spin up the `stdio` communication loop directly from your command line:
-
-```bash
-python main.py
-# or if using Node/TypeScript
-npm start
-
-```
-
-### Integrating with Claude Desktop / Cursor (MCP Config)
-
-To connect **Stdio-AI** as a local tool provider for development agents, add the server execution command to your local configuration file (e.g., `mcp.json` or your client configuration):
-
-```json
-{
-  "mcpServers": {
-    "stdio-ai": {
-      "command": "python",
-      "args": ["/absolute/path/to/Stdio-AI/main.py"],
-      "env": {
-        "DEBUG": "true"
-      }
-    }
-  }
-}
+```text
+├── .streamlit/          # Streamlit specific configurations (themes, secrets)
+├── assets/              # UI components, images, or styling resources
+├── src/                 # Main logic modules (agent loops, RAG pipelines, or utilities)
+├── app.py               # The main Streamlit entrypoint file
+├── requirements.txt     # Python package dependencies
+└── README.md            # Project documentation
 
 ```
-
-## 📊 Communication Protocol
-
-This project follows strict input/output streaming standards:
-
-* **`stdin`:** Receives structured payloads/JSON-RPC instructions from the AI coordinator.
-* **`stdout`:** Flushes response values back to the client. No unstructured code logs should be printed here.
-* **`stderr`:** Used exclusively for runtime debugging logs, info dumps, and connection traces.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps to propose changes:
+Contributions are welcome! If you want to enhance the UI, optimize component states, or add new features:
 
 1. Fork the Project.
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the Branch (`git push origin feature/AmazingFeature`).
+2. Create your Feature Branch (`git checkout -b feature/AmazingUIFeature`).
+3. Commit your Changes (`git commit -m 'Add some UI component'`).
+4. Push to the Branch (`git push origin feature/AmazingUIFeature`).
 5. Open a Pull Request.
 
 ## 📄 License
